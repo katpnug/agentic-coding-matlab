@@ -2,7 +2,13 @@
 % Raster + PSTH aligned to reach onset, success-vs-other comparison for all
 % 10 units, and a shuffle control. Base MATLAB only.
 
-cd(fileparts(fileparts(fileparts(mfilename('fullpath')))));  % repo root
+f = mfilename('fullpath');          % empty when run section-by-section
+if ~isempty(f)
+    cd(fileparts(fileparts(fileparts(f))));
+end
+if ~exist(fullfile('example_data', 'reach_subset.mat'), 'file')
+    error('Cannot find example_data. Run the whole file with F5, or cd to the repo root first.');
+end
 
 data = load(fullfile('example_data', 'reach_subset.mat'));
 ReachS = data.ReachS;
@@ -40,7 +46,7 @@ align_counts = @(spk, evts) cell2mat(arrayfun(@(e) ...
     histcounts(spk - e, edges), evts(:), 'UniformOutput', false));
 
 %% 4.2 + 4.3 raster and PSTH for unit 3
-unit = 3;
+unit = 8;
 spk = cellData(unit).spike_times;
 
 fig = figure('Color', 'w', 'Position', [100 100 700 700]);

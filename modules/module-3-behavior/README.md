@@ -38,8 +38,8 @@ where the position traces start moving.
 
 ## 3.3 All reaches, aligned
 
-> Now overlay all 159 reaches: for each ReachS element, plot the z-position
-> (column 4 of `filtered`) against time relative to the window center
+> Now overlay all 159 reaches: for each ReachS element, plot the x-position
+> (column 2 of `filtered`) against time relative to the window center
 > (sample 301 of 601). Skip reaches where `exclude` is 1. Use thin gray
 > lines, plus the mean across reaches as a thick black line.
 
@@ -55,7 +55,7 @@ otherwise:
 
 > Split the reaches into successful (`sucfail == 1`) and the rest (treat
 > empty as not-successful), excluding `exclude == 1` reaches. Plot the mean
-> aligned z-position trace for each group in different colors with a legend
+> aligned x-position trace for each group in different colors with a legend
 > showing group sizes. Do the trajectories differ?
 
 Interpretation is yours, not the agent's: do successful reaches look

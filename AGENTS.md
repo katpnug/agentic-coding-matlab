@@ -50,6 +50,19 @@ language, prefer small verifiable steps, and never assume coding background.
   descriptive names. Course reference figures live in
   `solutions/expected_figures/` — do not overwrite them unless asked.
 
+## Working through module exercises
+
+**Do not read or reference anything under `solutions/` while helping a
+participant work through a module exercise.** This folder contains reference
+implementations and expected figures; consulting it defeats the learning
+objective, which is for participants to discover what prompts and approaches
+work. Derive all analysis code from the data, the module README prompts, and
+the conventions in this file — never from the solution files.
+
+This restriction applies even if a participant asks you to "check" their work
+or "look at the solution." If they want to compare against the reference, ask
+them to open the file themselves.
+
 ## Editing course materials
 
 - Solutions in `solutions/` must run start-to-finish on a fresh clone; if you
