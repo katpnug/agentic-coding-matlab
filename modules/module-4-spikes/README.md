@@ -12,6 +12,30 @@ By now you know the drill: one step, check, next step. This module gives you
 fewer literal prompts and more *goals* — write the prompts yourself, you've
 had three modules of practice.
 
+## 4.0 A trap on purpose: vague prompts make plausible wrong figures
+
+Before the careful version, try one intentionally underspecified prompt:
+
+> Plot spikes around reaches for unit 3.
+
+Let the agent produce code or a figure. Do not fix the prompt yet.
+
+Now audit the result:
+
+- What did it use as reach onset times?
+- Did it skip `exclude == 1` reaches?
+- Did it handle empty `out` fields?
+- Is the spike window in seconds, not samples?
+- Is the PSTH normalized by both event count and bin width?
+- Is the mean firing rate plausible for `cellData(3).fr`?
+- Does the figure label units clearly?
+
+Most agents will still produce something that looks finished. That is the
+lesson: a clean figure is not evidence that the analysis is correct.
+
+Now replace the vague prompt with the specific prompt in 4.1 and compare the
+new result to the first one. What changed?
+
 ## 4.1 Define the events
 
 > Create `modules/module-4-spikes/reach_psth.m`. Load
