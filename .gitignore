@@ -1,0 +1,28 @@
+# ---------------------------------------------------------------
+# Large raw data — NOT distributed via GitHub.
+# See example_data/README.md for the download link to the full dataset.
+# ---------------------------------------------------------------
+example_data/motive_tracking/
+example_data/markerless_tracking/
+
+# MATLAB autosave / build artifacts
+*.asv
+*.m~
+*.mexw64
+*.mexa64
+*.mexmaci64
+slprj/
+
+# Figures and outputs generated while working through the modules
+outputs/
+*.fig
+
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor/agent local state
+.vscode/
+*.code-workspace
+.claude/settings.local.json
