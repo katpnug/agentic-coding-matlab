@@ -49,10 +49,12 @@ reference files). Agents that support skills load the right one when the task
 matches. Claude Code looks in `.claude/skills/`; the same format is being
 adopted by other tools (see [agentskills.io](https://agentskills.io)).
 
-This module ships a worked example:
+This module ships two worked examples:
 [`examples/.claude/skills/psth-conventions/SKILL.md`](examples/.claude/skills/psth-conventions/SKILL.md)
 — our lab's PSTH recipe (bins, smoothing, baseline, colors, the mandatory
-shuffle control from module 4.6).
+shuffle control from module 4.6), and
+[`examples/.claude/skills/dark-theme-figure/SKILL.md`](examples/.claude/skills/dark-theme-figure/SKILL.md)
+— formatting rules for figures meant to be shown on black slides.
 
 **Exercise — install and trigger it** (Claude Code):
 
@@ -61,6 +63,16 @@ shuffle control from module 4.6).
 2. Fresh conversation: `Make a PSTH for unit 7.`
 3. Watch the skill load (Claude announces it) and check the output follows
    the conventions — SEM bands, baseline window, the works — *unprompted*.
+
+**Exercise — combine two skills.** Copy both `psth-conventions` and
+`dark-theme-figure` into `.claude/skills/`, then start a fresh conversation:
+
+> Make a dark-theme presentation PSTH for unit 7.
+
+Check that both kinds of instructions were used: the analysis should still
+follow the PSTH conventions, while the figure styling should be readable on a
+black slide background. This is the main lesson of skills: one prompt can
+activate more than one reusable lab convention.
 
 **Exercise — write your own.** Pick something your lab does the same way
 every time (spike-sorting QC summary? behavior session report?) and:
