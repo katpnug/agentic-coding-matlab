@@ -1,142 +1,97 @@
-# 3. Set up the MATLAB MCP server
+# 3. Set up MATLAB access for your agent
 
-*Time: 10–15 minutes. This is the step that connects your agent to MATLAB.*
+*Time: 10-15 minutes. This connects your agent to MATLAB.*
 
-We use the **official MATLAB MCP Core Server from MathWorks**:
-<https://github.com/matlab/matlab-mcp-core-server>. It is a single small
-program (no installer) that your agent launches in the background. Through it,
-the agent gets five MATLAB tools:
+We use the official
+[MATLAB Agentic Toolkit](https://github.com/matlab/matlab-agentic-toolkit).
+It installs the MATLAB MCP Core Server for you and can also add MATLAB skills
+to supported agents.
 
-- `detect_matlab_toolboxes` — list installed toolboxes
-- `check_matlab_code` — static analysis of a `.m` file
-- `evaluate_matlab_code` — run MATLAB commands
-- `run_matlab_file` — run a `.m` script
-- `run_matlab_test_file` — run unit tests
+The important beginner idea is:
 
-Requirements: MATLAB **R2021a or newer**, on your system PATH (you verified
-this in [step 1](01-setup-ide.md)).
+> Do this setup from MATLAB. Do not download the MCP server binary by hand
+> unless an instructor asks you to troubleshoot manually.
 
-## 3.1 Download the server binary
+Requirements:
 
-Go to the [latest release page](https://github.com/matlab/matlab-mcp-core-server/releases/latest)
-and download the file for your platform:
+- MATLAB R2021a or newer.
+- Git installed.
+- One MCP-capable agent from [step 2](02-setup-agent.md).
 
-- Windows: `matlab-mcp-core-server-win64.exe`
-- Linux: `matlab-mcp-core-server-glnxa64`
-- macOS Apple silicon / Intel: `...-maca64` / `...-maci64`
+## 3.1 Install the MATLAB Agentic Toolkit
 
-Put it somewhere permanent (not Downloads), e.g.
-`C:\tools\matlab-mcp-core-server-win64.exe` on Windows or
-`~/tools/matlab-mcp-core-server` on macOS/Linux.
-
-macOS/Linux only — make it executable:
-
-```bash
-chmod +x ~/tools/matlab-mcp-core-server
-```
-
-**Write down the full path to this file — you need it below.**
-
-## 3.2 (Recommended, R2023a+) Enable "shared session" mode
-
-By default the server can start its own invisible MATLAB. It is *much* nicer
-to connect the agent to **your open MATLAB desktop**, so figures appear on
-your screen and you share a workspace with the agent. One-time setup:
-
-1. In a terminal, run the server once with the setup flag:
-
-   ```powershell
-   C:\tools\matlab-mcp-core-server-win64.exe --setup-matlab
-   ```
-
-   This installs a small add-on ("MATLAB MCP Core Server Toolbox") into MATLAB.
-2. From now on, whenever you work with the agent, have MATLAB open and run
-   this once per MATLAB session:
+1. Download
+   [agenticToolkitInstaller.mltbx](https://github.com/matlab/simulink-agentic-toolkit/releases/latest/download/agenticToolkitInstaller.mltbx).
+2. Open the downloaded `.mltbx` file. MATLAB will install a small installer
+   add-on.
+3. In MATLAB, run:
 
    ```matlab
-   shareMATLABSession()
+   setupAgenticToolkit("install")
    ```
 
-   Tip: you can add it to your `startup.m` so it's always on.
+4. When the installer asks what to install, choose the **MATLAB Agentic
+   Toolkit**. You do not need the Simulink toolkit for this course.
+5. When the installer asks about MATLAB session mode, choose the option that
+   connects to an existing MATLAB session. This is usually shown as `auto` or
+   `existing`.
+6. When the installer asks where to configure your agent, choose **global** for
+   this course unless an instructor tells you to use project-only setup.
 
-## 3.3 Tell your agent about the server
+The installer downloads the MCP server, configures your agent, and registers
+the MATLAB skills it can use.
 
-This is the only step that differs per agent.
+## 3.2 Choose only the skill groups you need
 
-### Claude Code
+Install only the skill groups relevant to your work. Fewer skills make it
+easier for the agent to choose the right one.
 
-In a terminal, from any folder (use *your* path to the binary):
+For this course, start small:
 
-```bash
-claude mcp add --scope user --transport stdio matlab -- C:\tools\matlab-mcp-core-server-win64.exe
+- **MATLAB Core** is useful for general MATLAB coding, debugging, and tests.
+- **MATLAB Data Import and Analysis** is useful when you start working with
+  tables or time-series data.
+
+You can add more skill groups later by running the installer again:
+
+```matlab
+setupAgenticToolkit("install")
 ```
 
-(`--scope user` makes it available in every project, not just the current
-folder.) Restart Claude Code afterwards. `/mcp` inside Claude Code should list
-`matlab` as connected.
+## 3.3 Restart your agent
 
-### VS Code / GitHub Copilot
+After the installer finishes:
 
-1. `Ctrl+Shift+P` → **"MCP: Open User Configuration"** (opens `mcp.json`).
-2. Add the server (use *your* path; note doubled backslashes on Windows):
+1. Close and reopen your agent or IDE.
+2. Open this repository folder again.
+3. Open MATLAB.
 
-   ```json
-   {
-       "servers": {
-           "matlab": {
-               "type": "stdio",
-               "command": "C:\\tools\\matlab-mcp-core-server-win64.exe",
-               "args": []
-           }
-       }
-   }
-   ```
+If you selected an existing MATLAB session mode, keep MATLAB open while you
+work with the agent so figures and command output appear in the MATLAB session
+you can see.
 
-3. Save. A "Start" link appears above the server entry — click it (or
-   `Ctrl+Shift+P` → "MCP: List Servers" → matlab → Start).
-4. In Copilot Chat (Agent mode), click the 🛠️ tools icon and confirm the
-   MATLAB tools are listed and enabled.
+If the installer does not list your agent, stop and ask for help. The manual
+MCP configuration is possible, but it is easier to make a typo and harder for
+beginners to debug.
 
-### Antigravity
+## 3.4 Verify the connection
 
-1. In the agent panel, open the settings/“⋯” menu → **MCP Servers** →
-   **Manage MCP servers** → **View raw config** (this edits
-   `mcp_config.json`).
-2. Add the same kind of entry:
+Open the agent chat and ask:
 
-   ```json
-   {
-       "mcpServers": {
-           "matlab": {
-               "command": "C:\\tools\\matlab-mcp-core-server-win64.exe",
-               "args": []
-           }
-       }
-   }
-   ```
+> Using the MATLAB tools, tell me which MATLAB version and toolboxes I have
+> installed.
 
-3. Save and click refresh in the MCP servers list; `matlab` should show its
-   tools.
+The agent should call a MATLAB tool named something like
+`detect_matlab_toolboxes` and report real version numbers.
 
-## 3.4 Verify the whole chain 🎉
+Then ask:
 
-1. Open MATLAB and run `shareMATLABSession()` (if you did step 3.2).
-2. Open this repo in your IDE, open the agent chat, and ask:
+> In MATLAB, plot a sine wave with a title that says "hello from my agent".
 
-   > Using the MATLAB tools, tell me which MATLAB version and toolboxes I
-   > have installed.
+A figure window should appear in MATLAB.
 
-   The agent should call a tool named something like
-   `detect_matlab_toolboxes` and report real versions. (The first call may be
-   slow if it has to start MATLAB.)
-3. Then ask:
+If either step fails, see [troubleshooting](troubleshooting.md).
 
-   > In MATLAB, plot a sine wave with a title that says "hello from my agent".
-
-   A figure window should appear in your MATLAB desktop.
-
-If either fails, see [troubleshooting](troubleshooting.md).
-
-✅ **Checkpoint:** the agent can run MATLAB code and you can see the figure.
-Setup is done — go to [module 0](../modules/module-0-hello-agent/README.md),
-or read the [prompting guide](04-prompting-guide.md) first.
+**Checkpoint:** the agent can run MATLAB code and you can see the figure.
+Setup is done. Go to [module 0](../modules/module-0-hello-agent/README.md), or
+read the [prompting guide](04-prompting-guide.md) first.
